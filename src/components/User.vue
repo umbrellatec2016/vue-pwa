@@ -120,13 +120,11 @@
     methods: {
       addFavorite() {
         const favorites = localStorage.favorites;
-        console.log(favorites);
         if (typeof favorites === 'undefined') {
           const parsed = JSON.stringify([this.user]);
           localStorage.favorites = parsed;
         } else {
           const parsed = JSON.parse(favorites);
-          console.log(parsed);
           parsed.push(this.user);
           localStorage.favorites = JSON.stringify(parsed);
         }
