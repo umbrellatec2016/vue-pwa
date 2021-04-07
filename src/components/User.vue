@@ -1,66 +1,76 @@
 <template>
   <div class="page-container">
     <div class="md-layout md-gutter">
-      <div class="md-layout-item">
-        <md-card>
-          <md-card-media-actions>
-            <md-card-media class="centered">
-              <img :src="user.picture.large" alt="Cover">
-            </md-card-media>
-          </md-card-media-actions>
+      <div class="md-layout-item supply" >
+        <md-card md-with-hover>
+          <md-ripple>
+            <md-card-media-actions>
+              <md-card-media class="centered">
+                <img :src="user.picture.large" alt="Cover">
+              </md-card-media>
+            </md-card-media-actions>
+          </md-ripple>
         </md-card>
       </div>
-      <div class="md-layout-item map">
-        <l-map :center="center" :zoom='zoom' style="height: 80%">
-          <l-tile-layer :url="url" :attribution="attribution" />
-          <l-marker :lat-lng="center">
-            <l-tooltip :options="{ permanent: true, interactive: true }">
-              <div>
-                I am In
-              </div>
-            </l-tooltip>
-          </l-marker>
-        </l-map>
+      <div class="md-layout-item map supply">
+        
+            <l-map :center="center" :zoom='zoom' style="height: 100%">
+              <l-tile-layer :url="url" :attribution="attribution" />
+              <l-marker :lat-lng="center">
+                <l-tooltip :options="{ permanent: true, interactive: true }">
+                  <div>
+                    I am In
+                  </div>
+                </l-tooltip>
+              </l-marker>
+            </l-map>
+          
       </div>
-      <div class="md-layout-item">
+      <div class="md-layout-item supply">
+        <md-card md-with-hover style="min-height: 100%">
+          <md-ripple>
         <md-button class="md-icon-button md-dense md-primary favorite" @click="addFavorite()">
           <md-icon>favorite</md-icon>
         </md-button>
+          </md-ripple>
+        </md-card>
       </div>
     </div>
-    <div class="md-layout md-gutter">
-      <div class="md-layout-item">
-        <div class="viewport">
-          <md-list class="md-double-line">
-            <md-subheader>Datos personales</md-subheader>
-            <md-list-item>
-              <md-icon class="md-primary">person</md-icon>
+    <div class="md-layout ">
+      <md-card md-with-hover class="personal-data">
+        <md-ripple>
 
-              <div class="md-list-item-text">
-                <span>{{user.name.first}} {{user.name.last}}</span>
-                <span>Nombre</span>
-              </div>
-            </md-list-item>
-            <md-list-item>
-              <md-icon class="md-primary">gender</md-icon>
+          <div class="viewport">
+            <md-list class="md-double-line">
+              <md-subheader>Datos personales</md-subheader>
+              <md-list-item>
+                <md-icon class="md-primary">person</md-icon>
 
-              <div class="md-list-item-text">
-                <span>{{user.gender}}</span>
-                <span>Genero</span>
-              </div>
-            </md-list-item>
-            <md-list-item>
-              <md-icon class="md-primary">phone</md-icon>
+                <div class="md-list-item-text">
+                  <span>{{user.name.first}} {{user.name.last}}</span>
+                  <span>Nombre</span>
+                </div>
+              </md-list-item>
+              <md-list-item>
+                <md-icon class="md-primary">gender</md-icon>
 
-              <div class="md-list-item-text">
-                <span>{{user.phone}}</span>
-                <span>Telefono</span>
-              </div>
-            </md-list-item>
-          </md-list>
-        </div>
+                <div class="md-list-item-text">
+                  <span>{{user.gender}}</span>
+                  <span>Genero</span>
+                </div>
+              </md-list-item>
+              <md-list-item>
+                <md-icon class="md-primary">phone</md-icon>
 
-      </div>
+                <div class="md-list-item-text">
+                  <span>{{user.phone}}</span>
+                  <span>Telefono</span>
+                </div>
+              </md-list-item>
+            </md-list>
+          </div>
+        </md-ripple>
+      </md-card>
     </div>
     <div class="content">
       <md-card md-with-hover>
@@ -128,6 +138,11 @@
           parsed.push(this.user);
           localStorage.favorites = JSON.stringify(parsed);
         }
+        const encoded = JSON.stringify(localStorage.favorites).slice(1, -1);
+        this.$store.dispatch('saveUsers', {
+          data: encoded,
+          nickname: 'nickname',
+        });
       },
     },
     computed: {
@@ -155,6 +170,15 @@
 
   md-gutter {
     max-height: 390px;
+  }
+
+  .personal-data {
+    margin: auto;
+    min-width: 100%;
+  }
+  .supply{
+    min-height: 90%;
+    margin-bottom: 15px;
   }
 
 </style>

@@ -24,12 +24,12 @@
       </md-table-row>
       
     </md-table>
-    <md-table-toolbar>
         <div class="md-toolbar-section-start">
           
           <md-button class="md-raised md-accent all"  @click="csvExport()">Exportar</md-button>
         </div>
-    </md-table-toolbar>
+        
+
 
   </div>
 
@@ -43,16 +43,16 @@
       search: null,
       searched: [],
       searchBy: 'Genero',
-      users: [],
     }),
-    beforeMount() {
-      this.users = JSON.parse(localStorage.favorites);
+    mounted() {
+      // this.users = JSON.parse(localStorage.favorites);
+      this.$store.dispatch('loadFavorites', { nickname: 'nickname' });
     },
     methods: {
       csvExport() {
         const datae = [];
         this.users.forEach((reg) => {
-          datae.push([reg.gender, `${reg.name.first} ${reg.name.last}`, reg.email, reg.location.country, reg.dob.datem, reg.registered.date]);
+          datae.push([reg.gender, `${reg.name.first} ${reg.name.last}`, reg.email, reg.location.country, reg.dob.date, reg.registered.date]);
         });
         let csvContent = 'data:text/csv;charset=utf-8,';
         csvContent += [
@@ -67,6 +67,11 @@
         link.setAttribute('href', data);
         link.setAttribute('download', 'export.csv');
         link.click();
+      },
+    },
+    computed: {
+      users() {
+        return this.$store.state.users;
       },
     },
     watch: {
